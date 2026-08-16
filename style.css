@@ -1353,6 +1353,43 @@ nav.scrolled {
   display: flex;
   gap: 1.2rem;
   align-items: flex-start;
+  position: relative;
+}
+
+.edu-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: var(--radius-lg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.edu-card-link:hover {
+  transform: translateY(-3px);
+}
+
+.edu-card-link:hover .edu-card {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.15);
+}
+
+.verify-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(234, 179, 8, 0.12);
+  color: var(--gold-primary);
+  border: 1px solid var(--border-gold);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.edu-card-link:hover .verify-badge {
+  opacity: 1;
 }
 
 .edu-card.main-edu {
