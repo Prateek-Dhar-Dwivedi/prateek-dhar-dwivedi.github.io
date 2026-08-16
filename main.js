@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCommandPalette();
   initCursorGlow();
   initNavScroll();
-  initCineoraDefault();
 });
 
 /* --------------------------------------------------------------------------
@@ -283,160 +282,7 @@ function filterProjects(btn, category) {
 }
 
 /* --------------------------------------------------------------------------
-   7. INTERACTIVE AI DEMO 1: TRUTHLENS FACT CHECKER
-   -------------------------------------------------------------------------- */
-function switchDemo(demoId) {
-  playSound('click');
-  document.querySelectorAll('.demo-tab-btn').forEach(b => b.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-
-  if (demoId === 'truthlens') {
-    document.getElementById('truthlensDemo').style.display = 'block';
-    document.getElementById('cineoraDemo').style.display = 'none';
-  } else {
-    document.getElementById('truthlensDemo').style.display = 'none';
-    document.getElementById('cineoraDemo').style.display = 'block';
-  }
-}
-
-function setClaimPreset(claimText) {
-  playSound('click');
-  const input = document.getElementById('claimInput');
-  if (input) {
-    input.value = claimText;
-    runTruthLensDemo();
-  }
-}
-
-function runTruthLensDemo() {
-  playSound('synth');
-  const input = document.getElementById('claimInput');
-  const resultsBox = document.getElementById('tlResults');
-
-  if (!input || !resultsBox) return;
-  const text = input.value.trim();
-
-  if (!text) {
-    showToast('Please enter a claim statement to verify.');
-    return;
-  }
-
-  resultsBox.innerHTML = `
-    <div class="result-placeholder">
-      <span>Retrieving news index &amp; running DistilBERT ONNX model inference...</span>
-    </div>
-  `;
-
-  setTimeout(() => {
-    let verdict = 'Verified True';
-    let verdictClass = 'verified';
-    let badgeLabel = 'VERIFIED';
-    let confidence = 96.4;
-    let tfidfSim = 0.89;
-    let sourceCount = 14;
-    let explanation = 'The input claim strongly matches verified technical documentation and news sources.';
-
-    const lower = text.toLowerCase();
-    if (lower.includes('moon') || lower.includes('100 degrees celsius') || lower.includes('fake') || lower.includes('flat earth')) {
-      verdict = 'False / Misinformation';
-      verdictClass = 'false-claim';
-      badgeLabel = 'CONTRADICTED';
-      confidence = 94.1;
-      tfidfSim = 0.12;
-      sourceCount = 3;
-      explanation = 'Contradicted by scientific consensus and verified news databases.';
-    } else if (lower.includes('distilbert')) {
-      verdict = 'Verified True';
-      verdictClass = 'verified';
-      badgeLabel = 'VERIFIED';
-      confidence = 98.7;
-      tfidfSim = 0.94;
-      sourceCount = 28;
-      explanation = 'DistilBERT NLI model confirmed claim with high entailment probability.';
-    }
-
-    resultsBox.innerHTML = `
-      <div class="tl-result-card">
-        <div class="tl-verdict ${verdictClass}">
-          <span class="status-badge-inline">[${badgeLabel}]</span>
-          <span>Verdict: ${verdict}</span>
-        </div>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">${explanation}</p>
-        <div class="tl-metric-row">
-          <div class="tl-metric">
-            <div class="tl-metric-lbl">NLI Confidence</div>
-            <div class="tl-metric-val">${confidence}%</div>
-          </div>
-          <div class="tl-metric">
-            <div class="tl-metric-lbl">TF-IDF Similarity</div>
-            <div class="tl-metric-val">${tfidfSim}</div>
-          </div>
-          <div class="tl-metric">
-            <div class="tl-metric-lbl">Verified Sources</div>
-            <div class="tl-metric-val">${sourceCount} Sources</div>
-          </div>
-        </div>
-      </div>
-    `;
-  }, 1000);
-}
-
-/* --------------------------------------------------------------------------
-   8. INTERACTIVE AI DEMO 2: CINEORA RECOMMENDER
-   -------------------------------------------------------------------------- */
-const movieDB = {
-  scifi: [
-    { title: 'Interstellar', rating: '8.7 / 10', category: 'Sci-Fi', match: '98% Match' },
-    { title: 'Blade Runner 2049', rating: '8.5 / 10', category: 'Cyberpunk', match: '95% Match' },
-    { title: 'Arrival', rating: '8.2 / 10', category: 'Sci-Fi', match: '92% Match' },
-    { title: 'Inception', rating: '8.8 / 10', category: 'Sci-Fi', match: '90% Match' }
-  ],
-  action: [
-    { title: 'Spider-Man: Across the Spider-Verse', rating: '8.7 / 10', category: 'Action', match: '97% Match' },
-    { title: 'Top Gun: Maverick', rating: '8.3 / 10', category: 'Action', match: '94% Match' },
-    { title: 'The Dark Knight', rating: '9.0 / 10', category: 'Action', match: '96% Match' }
-  ],
-  drama: [
-    { title: 'Oppenheimer', rating: '8.9 / 10', category: 'Drama', match: '99% Match' },
-    { title: 'Parasite', rating: '8.5 / 10', category: 'Drama', match: '93% Match' },
-    { title: 'The Grand Budapest Hotel', rating: '8.1 / 10', category: 'Drama', match: '89% Match' }
-  ],
-  cyberpunk: [
-    { title: 'Cyberpunk: Edgerunners', rating: '8.6 / 10', category: 'Cyberpunk', match: '98% Match' },
-    { title: 'The Matrix', rating: '8.7 / 10', category: 'Cyberpunk', match: '96% Match' },
-    { title: 'Ghost in the Shell', rating: '8.0 / 10', category: 'Cyberpunk', match: '91% Match' }
-  ]
-};
-
-function selectMood(btn, mood) {
-  playSound('click');
-  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  const container = document.getElementById('cineoraResults');
-  if (!container) return;
-
-  const movies = movieDB[mood] || movieDB.scifi;
-
-  container.innerHTML = movies.map(m => `
-    <div class="movie-card">
-      <div class="movie-tag-badge">${m.category}</div>
-      <div class="movie-title">${m.title}</div>
-      <div class="movie-meta">Rating: ${m.rating} • ${m.match}</div>
-    </div>
-  `).join('');
-}
-
-function initCineoraDefault() {
-  const container = document.getElementById('cineoraResults');
-  if (container) {
-    const btn = document.querySelector('.mood-btn');
-    if (btn) selectMood(btn, 'scifi');
-  }
-}
-
-/* --------------------------------------------------------------------------
-   9. PROJECT DEEP DIVE MODALS
+   7. PROJECT DEEP DIVE MODALS
    -------------------------------------------------------------------------- */
 const projectDetails = {
   truthlens: {
@@ -530,7 +376,7 @@ function closeProjectModal() {
 }
 
 /* --------------------------------------------------------------------------
-   10. COMMAND PALETTE (CTRL+K / CMD+K)
+   8. COMMAND PALETTE (CTRL+K / CMD+K)
    -------------------------------------------------------------------------- */
 function initCommandPalette() {
   const modal = document.getElementById('cmdModal');
@@ -541,8 +387,7 @@ function initCommandPalette() {
   if (!modal || !input || !results) return;
 
   const commands = [
-    { label: 'Jump to Projects', action: () => scrollToSection('projects') },
-    { label: 'Try TruthLens AI Simulator', action: () => scrollToSection('demos') },
+    { label: 'Jump to Featured Projects', action: () => scrollToSection('projects') },
     { label: 'Explore Skills & Tooling', action: () => scrollToSection('skills') },
     { label: 'View Experience & Timeline', action: () => scrollToSection('experience') },
     { label: 'Send Message / Contact', action: () => scrollToSection('contact') },
@@ -603,7 +448,7 @@ function scrollToSection(id) {
 }
 
 /* --------------------------------------------------------------------------
-   11. SOUND FX ENGINE (WEB AUDIO API)
+   9. SOUND FX ENGINE (WEB AUDIO API)
    -------------------------------------------------------------------------- */
 let soundEnabled = true;
 
@@ -657,7 +502,7 @@ function playSound(type) {
 }
 
 /* --------------------------------------------------------------------------
-   12. TOAST NOTIFICATIONS & CLIPBOARD COPY
+   10. TOAST NOTIFICATIONS & CLIPBOARD COPY
    -------------------------------------------------------------------------- */
 function copyToClipboard(text, message) {
   playSound('click');
@@ -684,7 +529,7 @@ function showToast(message) {
 }
 
 /* --------------------------------------------------------------------------
-   13. CURSOR GLOW & NAV SCROLL
+   11. CURSOR GLOW & NAV SCROLL
    -------------------------------------------------------------------------- */
 function initCursorGlow() {
   const glow = document.getElementById('cursorGlow');
