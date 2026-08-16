@@ -288,7 +288,7 @@ const projectDetails = {
   truthlens: {
     title: 'TruthLens — AI Misinformation Fact-Checking Platform',
     category: 'Full Stack AI & NLP',
-    image: 'assets/truthlens.jpg',
+    image: 'assets/truthlens.png',
     description: 'TruthLens is an automated claim verification engine. It extracts live news via web scraping, computes TF-IDF document vectors to retrieve relevant evidence, and passes claims into an ONNX-quantized DistilBERT Natural Language Inference (NLI) model to assign truth confidence scores.',
     tech: ['FastAPI', 'DistilBERT NLI', 'ONNX Runtime', 'React.js', 'Node.js', 'Vercel & Render'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/TruthLens',
@@ -297,7 +297,7 @@ const projectDetails = {
   cineora: {
     title: 'Cineora — Machine Learning Movie Recommendation System',
     category: 'Full Stack Machine Learning',
-    image: 'assets/cineora.jpg',
+    image: 'assets/cineora.png',
     description: 'Cineora delivers personalized movie suggestions by implementing content-based vector filtering over TMDB datasets. The backend Flask server calculates cosine similarity matrices across movie genres, overview embeddings, and cast metadata.',
     tech: ['Python', 'Flask', 'React.js', 'TMDB API', 'Pandas & Scikit-learn', 'Render'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/Movie_Recommender_System_Cineora',
@@ -306,7 +306,7 @@ const projectDetails = {
   velora: {
     title: 'Velora — AI Job Verification & Recommendation Engine',
     category: 'Full Stack MERN & AI',
-    image: 'assets/velora.jpg',
+    image: 'assets/velora.png',
     description: 'Velora combats fraudulent job postings and irrelevant candidate applications. Features resume parsing, match percentage scoring, Google OAuth 2.0 authentication, Cloudinary media upload, and JWT security.',
     tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Cloudinary', 'OAuth 2.0'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/VELORA',
@@ -315,7 +315,7 @@ const projectDetails = {
   mern: {
     title: 'NIELIT MERN Stack Educational Portal',
     category: 'Full Stack Web Platform',
-    image: 'assets/mern.jpg',
+    image: 'assets/mern.png',
     description: 'Comprehensive academic management system built for NIELIT. Supports student assignment submissions, teacher grading dashboards, RESTful API endpoints, and user role authorization.',
     tech: ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'REST APIs'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/NIELIT_MERN',
@@ -324,7 +324,7 @@ const projectDetails = {
   pythonapp: {
     title: 'NIELIT Python Web System',
     category: 'Python Web Development',
-    image: 'assets/truthlens.jpg',
+    image: 'assets/pythonapp.png',
     description: 'Dynamic web application utilizing Python backend logic, Anvil framework integrations, database management, and structured input form validation.',
     tech: ['Python', 'Anvil Framework', 'Database', 'User Auth'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/NIELIT_PY',
@@ -333,7 +333,7 @@ const projectDetails = {
   portfolio: {
     title: 'Interactive Portfolio System',
     category: 'Frontend Engineering',
-    image: 'assets/profile.jpg',
+    image: 'assets/portfolioshot.png',
     description: 'Personal interactive portfolio built with vanilla HTML5, CSS design tokens, neural particle physics canvas, browser AI model simulators, and Command Palette shortcuts.',
     tech: ['HTML5', 'CSS Tokens', 'JavaScript ES6', 'Canvas API', 'Web Audio API'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/-Portfolio',
