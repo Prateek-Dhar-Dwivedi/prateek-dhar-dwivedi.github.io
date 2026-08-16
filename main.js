@@ -249,12 +249,12 @@ function initSkillSearch() {
 
   input.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase().trim();
-    const items = document.querySelectorAll('.skill-item');
+    const items = document.querySelectorAll('.skill-pill-tag');
 
     items.forEach(item => {
       const name = item.getAttribute('data-name').toLowerCase();
       if (name.includes(term)) {
-        item.style.display = 'block';
+        item.style.display = 'inline-flex';
       } else {
         item.style.display = 'none';
       }
