@@ -1360,6 +1360,17 @@ nav.scrolled {
   text-decoration: none;
   color: inherit;
   display: block;
+  border-radius: var(--radius-lg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.edu-card-link:hover {
+  transform: translateY(-3px);
+}
+
+.edu-card-link:hover .edu-card {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.15);
 }
 
 .edu-card.main-edu {
