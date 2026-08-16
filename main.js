@@ -130,11 +130,11 @@ function initTypingEffect() {
   if (!typingElem) return;
 
   const phrases = [
-    'NLP Transformers & DistilBERT Models',
-    'Full-Stack MERN Web Applications',
     'Machine Learning Pipelines',
+    'NLP Transformers & DistilBERT Models',
+    'Full-Stack MERN Applications',
     'FastAPI & Flask Backends',
-    'Responsive AI Web Platforms'
+    'Responsive Web Systems'
   ];
 
   let phraseIndex = 0;
@@ -186,7 +186,6 @@ function initTechMarquee() {
     { name: 'C++', icon: 'devicon-cplusplus-plain colored' },
     { name: 'JavaScript', icon: 'devicon-javascript-plain colored' },
     { name: 'MySQL', icon: 'devicon-mysql-plain colored' },
-    { name: 'HuggingFace', icon: 'devicon-python-plain' },
     { name: 'Vercel', icon: 'devicon-vercel-original' }
   ];
 
@@ -289,7 +288,7 @@ function filterProjects(btn, category) {
 function switchDemo(demoId) {
   playSound('click');
   document.querySelectorAll('.demo-tab-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  event.currentTarget.classList.add('active');
 
   if (demoId === 'truthlens') {
     document.getElementById('truthlensDemo').style.display = 'block';
@@ -313,7 +312,6 @@ function runTruthLensDemo() {
   playSound('synth');
   const input = document.getElementById('claimInput');
   const resultsBox = document.getElementById('tlResults');
-  const spinner = document.getElementById('tlSpinner');
 
   if (!input || !resultsBox) return;
   const text = input.value.trim();
@@ -323,8 +321,6 @@ function runTruthLensDemo() {
     return;
   }
 
-  if (spinner) spinner.style.display = 'inline-block';
-
   resultsBox.innerHTML = `
     <div class="result-placeholder">
       <span>Retrieving news index &amp; running DistilBERT ONNX model inference...</span>
@@ -332,11 +328,9 @@ function runTruthLensDemo() {
   `;
 
   setTimeout(() => {
-    if (spinner) spinner.style.display = 'none';
-
     let verdict = 'Verified True';
     let verdictClass = 'verified';
-    let icon = '✅';
+    let badgeLabel = 'VERIFIED';
     let confidence = 96.4;
     let tfidfSim = 0.89;
     let sourceCount = 14;
@@ -346,7 +340,7 @@ function runTruthLensDemo() {
     if (lower.includes('moon') || lower.includes('100 degrees celsius') || lower.includes('fake') || lower.includes('flat earth')) {
       verdict = 'False / Misinformation';
       verdictClass = 'false-claim';
-      icon = '❌';
+      badgeLabel = 'CONTRADICTED';
       confidence = 94.1;
       tfidfSim = 0.12;
       sourceCount = 3;
@@ -354,7 +348,7 @@ function runTruthLensDemo() {
     } else if (lower.includes('distilbert')) {
       verdict = 'Verified True';
       verdictClass = 'verified';
-      icon = '✅';
+      badgeLabel = 'VERIFIED';
       confidence = 98.7;
       tfidfSim = 0.94;
       sourceCount = 28;
@@ -364,7 +358,7 @@ function runTruthLensDemo() {
     resultsBox.innerHTML = `
       <div class="tl-result-card">
         <div class="tl-verdict ${verdictClass}">
-          <span>${icon}</span>
+          <span class="status-badge-inline">[${badgeLabel}]</span>
           <span>Verdict: ${verdict}</span>
         </div>
         <p style="font-size: 0.9rem; color: var(--text-muted);">${explanation}</p>
@@ -392,25 +386,25 @@ function runTruthLensDemo() {
    -------------------------------------------------------------------------- */
 const movieDB = {
   scifi: [
-    { title: 'Interstellar', rating: '8.7 ⭐', icon: '🌌', match: '98% Match' },
-    { title: 'Blade Runner 2049', rating: '8.5 ⭐', icon: '🌃', match: '95% Match' },
-    { title: 'Arrival', rating: '8.2 ⭐', icon: '🛸', match: '92% Match' },
-    { title: 'Inception', rating: '8.8 ⭐', icon: '🌀', match: '90% Match' }
+    { title: 'Interstellar', rating: '8.7 / 10', category: 'Sci-Fi', match: '98% Match' },
+    { title: 'Blade Runner 2049', rating: '8.5 / 10', category: 'Cyberpunk', match: '95% Match' },
+    { title: 'Arrival', rating: '8.2 / 10', category: 'Sci-Fi', match: '92% Match' },
+    { title: 'Inception', rating: '8.8 / 10', category: 'Sci-Fi', match: '90% Match' }
   ],
   action: [
-    { title: 'Spider-Man: Across the Spider-Verse', rating: '8.7 ⭐', icon: '🕸️', match: '97% Match' },
-    { title: 'Top Gun: Maverick', rating: '8.3 ⭐', icon: '✈️', match: '94% Match' },
-    { title: 'The Dark Knight', rating: '9.0 ⭐', icon: '🦇', match: '96% Match' }
+    { title: 'Spider-Man: Across the Spider-Verse', rating: '8.7 / 10', category: 'Action', match: '97% Match' },
+    { title: 'Top Gun: Maverick', rating: '8.3 / 10', category: 'Action', match: '94% Match' },
+    { title: 'The Dark Knight', rating: '9.0 / 10', category: 'Action', match: '96% Match' }
   ],
   drama: [
-    { title: 'Oppenheimer', rating: '8.9 ⭐', icon: '💥', match: '99% Match' },
-    { title: 'Parasite', rating: '8.5 ⭐', icon: '🏠', match: '93% Match' },
-    { title: 'The Grand Budapest Hotel', rating: '8.1 ⭐', icon: '🏨', match: '89% Match' }
+    { title: 'Oppenheimer', rating: '8.9 / 10', category: 'Drama', match: '99% Match' },
+    { title: 'Parasite', rating: '8.5 / 10', category: 'Drama', match: '93% Match' },
+    { title: 'The Grand Budapest Hotel', rating: '8.1 / 10', category: 'Drama', match: '89% Match' }
   ],
   cyberpunk: [
-    { title: 'Cyberpunk: Edgerunners', rating: '8.6 ⭐', icon: '🤖', match: '98% Match' },
-    { title: 'The Matrix', rating: '8.7 ⭐', icon: '🕶️', match: '96% Match' },
-    { title: 'Ghost in the Shell', rating: '8.0 ⭐', icon: '⚡', match: '91% Match' }
+    { title: 'Cyberpunk: Edgerunners', rating: '8.6 / 10', category: 'Cyberpunk', match: '98% Match' },
+    { title: 'The Matrix', rating: '8.7 / 10', category: 'Cyberpunk', match: '96% Match' },
+    { title: 'Ghost in the Shell', rating: '8.0 / 10', category: 'Cyberpunk', match: '91% Match' }
   ]
 };
 
@@ -426,9 +420,9 @@ function selectMood(btn, mood) {
 
   container.innerHTML = movies.map(m => `
     <div class="movie-card">
-      <div class="movie-poster">${m.icon}</div>
+      <div class="movie-tag-badge">${m.category}</div>
       <div class="movie-title">${m.title}</div>
-      <div class="movie-meta">${m.rating} • ${m.match}</div>
+      <div class="movie-meta">Rating: ${m.rating} • ${m.match}</div>
     </div>
   `).join('');
 }
@@ -436,7 +430,8 @@ function selectMood(btn, mood) {
 function initCineoraDefault() {
   const container = document.getElementById('cineoraResults');
   if (container) {
-    selectMood(document.querySelector('.mood-btn'), 'scifi');
+    const btn = document.querySelector('.mood-btn');
+    if (btn) selectMood(btn, 'scifi');
   }
 }
 
@@ -448,7 +443,7 @@ const projectDetails = {
     title: 'TruthLens — AI Misinformation Fact-Checking Platform',
     category: 'Full Stack AI & NLP',
     image: 'assets/truthlens.jpg',
-    description: 'TruthLens is an end-to-end automated claim verification engine. It extracts live news via web scraping, computes TF-IDF document vectors to retrieve relevant evidence, and passes claims into an ONNX-quantized DistilBERT Natural Language Inference (NLI) model to assign truth confidence scores.',
+    description: 'TruthLens is an automated claim verification engine. It extracts live news via web scraping, computes TF-IDF document vectors to retrieve relevant evidence, and passes claims into an ONNX-quantized DistilBERT Natural Language Inference (NLI) model to assign truth confidence scores.',
     tech: ['FastAPI', 'DistilBERT NLI', 'ONNX Runtime', 'React.js', 'Node.js', 'Vercel & Render'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/TruthLens',
     demo: 'https://truth-lens-lemon.vercel.app/'
@@ -490,10 +485,10 @@ const projectDetails = {
     demo: 'https://defensive-major-group.anvil.app/'
   },
   portfolio: {
-    title: 'Interactive AI Developer Portfolio System',
+    title: 'Interactive Portfolio System',
     category: 'Frontend Engineering',
     image: 'assets/profile.jpg',
-    description: 'This modern interactive portfolio built with semantic HTML5, CSS design tokens, neural particle physics canvas, browser AI model simulators, and Command Palette shortcuts.',
+    description: 'Personal interactive portfolio built with vanilla HTML5, CSS design tokens, neural particle physics canvas, browser AI model simulators, and Command Palette shortcuts.',
     tech: ['HTML5', 'CSS Tokens', 'JavaScript ES6', 'Canvas API', 'Web Audio API'],
     github: 'https://github.com/Prateek-Dhar-Dwivedi/-Portfolio',
     demo: 'https://prateek-dhar-dwivedi.github.io/-Portfolio/'
@@ -546,13 +541,13 @@ function initCommandPalette() {
   if (!modal || !input || !results) return;
 
   const commands = [
-    { label: '🚀 Jump to Projects', action: () => scrollToSection('projects') },
-    { label: '🤖 Try TruthLens AI Simulator', action: () => scrollToSection('demos') },
-    { label: '🧠 Explore Skills & Tooling', action: () => scrollToSection('skills') },
-    { label: '📜 View Experience & Timeline', action: () => scrollToSection('experience') },
-    { label: '✉️ Send Message / Contact', action: () => scrollToSection('contact') },
-    { label: '🔊 Toggle Audio Sound FX', action: () => toggleSound() },
-    { label: '🐙 Open GitHub Profile', action: () => window.open('https://github.com/Prateek-Dhar-Dwivedi', '_blank') }
+    { label: 'Jump to Projects', action: () => scrollToSection('projects') },
+    { label: 'Try TruthLens AI Simulator', action: () => scrollToSection('demos') },
+    { label: 'Explore Skills & Tooling', action: () => scrollToSection('skills') },
+    { label: 'View Experience & Timeline', action: () => scrollToSection('experience') },
+    { label: 'Send Message / Contact', action: () => scrollToSection('contact') },
+    { label: 'Toggle Audio Sound FX', action: () => toggleSound() },
+    { label: 'Open GitHub Profile', action: () => window.open('https://github.com/Prateek-Dhar-Dwivedi', '_blank') }
   ];
 
   function renderCommands(filter = '') {
@@ -615,7 +610,13 @@ let soundEnabled = true;
 function toggleSound() {
   soundEnabled = !soundEnabled;
   const icon = document.getElementById('soundIcon');
-  if (icon) icon.textContent = soundEnabled ? '🔊' : '🔇';
+  if (icon) {
+    if (soundEnabled) {
+      icon.innerHTML = `<path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>`;
+    } else {
+      icon.innerHTML = `<path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>`;
+    }
+  }
   showToast(soundEnabled ? 'Audio FX Enabled' : 'Audio FX Muted');
 }
 

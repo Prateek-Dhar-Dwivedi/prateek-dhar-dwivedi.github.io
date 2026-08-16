@@ -1347,9 +1347,45 @@ nav.scrolled {
   border-color: var(--border-gold);
 }
 
-.edu-icon {
-  font-size: 2rem;
-  line-height: 1;
+.edu-icon-svg, .c-icon-svg, .h-icon-box {
+  background: rgba(20, 24, 33, 0.6);
+  border: 1px solid var(--border-glass);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+  flex-shrink: 0;
+}
+
+.timeline-location {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  margin-top: 0.2rem;
+}
+
+.status-badge-inline {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(234, 179, 8, 0.15);
+  color: var(--gold-primary);
+  border: 1px solid var(--border-gold);
+}
+
+.movie-tag-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gold-primary);
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-full);
+  padding: 2px 10px;
+  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 
 .edu-year {
