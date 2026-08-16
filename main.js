@@ -352,7 +352,9 @@ function openProjectModal(key) {
   body.innerHTML = `
     <span class="project-category">${p.category}</span>
     <h2 style="font-size: 1.6rem; margin: 0.4rem 0 1rem; color: var(--text-main);">${p.title}</h2>
-    <img src="${p.image}" alt="${p.title}" style="width:100%; height:240px; object-fit:cover; border-radius:12px; margin-bottom:1.25rem; border:1px solid var(--border-glass);" />
+    <div style="width:100%; max-height:360px; background:rgba(10, 13, 20, 0.95); border-radius:12px; margin-bottom:1.25rem; border:1px solid var(--border-glass); overflow:hidden; display:flex; align-items:center; justify-content:center;">
+      <img src="${p.image}?v=6.0" alt="${p.title}" style="width:100%; max-height:360px; object-fit:contain;" />
+    </div>
     <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">${p.description}</p>
     <div style="margin-bottom: 1.5rem;">
       <h4 style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.5rem;">Key Architecture &amp; Tech Stack:</h4>
@@ -360,7 +362,7 @@ function openProjectModal(key) {
         ${p.tech.map(t => `<span>${t}</span>`).join('')}
       </div>
     </div>
-    <div style="display:flex; gap:1rem;">
+    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
       <a href="${p.github}" target="_blank" class="btn btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.88rem;">View GitHub →</a>
       <a href="${p.demo}" target="_blank" class="btn btn-secondary" style="padding: 0.6rem 1.25rem; font-size: 0.88rem;">Live Launch →</a>
     </div>
