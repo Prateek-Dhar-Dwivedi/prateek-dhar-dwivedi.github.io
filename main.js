@@ -390,6 +390,7 @@ function initCommandPalette() {
 
   const commands = [
     { label: 'Jump to Featured Projects', action: () => scrollToSection('projects') },
+    { label: 'Explore Recommendations & Testimonials', action: () => scrollToSection('testimonials') },
     { label: 'Explore Skills & Tooling', action: () => scrollToSection('skills') },
     { label: 'View Experience & Timeline', action: () => scrollToSection('experience') },
     { label: 'Send Message / Contact', action: () => scrollToSection('contact') },

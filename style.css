@@ -759,7 +759,92 @@ nav.scrolled {
 }
 
 /* --------------------------------------------------------------------------
-   6. SKILLS SECTION
+   TESTIMONIALS & RECOMMENDATIONS
+   -------------------------------------------------------------------------- */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.testimonial-card {
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  border: 1px solid var(--border-glass);
+  background: rgba(20, 24, 33, 0.7);
+  transition: var(--transition-smooth);
+}
+
+.testimonial-card:hover {
+  border-color: var(--border-gold);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(234, 179, 8, 0.12);
+}
+
+.t-quote-icon {
+  color: var(--gold-primary);
+  opacity: 0.6;
+  margin-bottom: 1.25rem;
+}
+
+.t-quote-text {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.75;
+  margin-bottom: 1.75rem;
+  font-style: italic;
+}
+
+.t-author-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-glass);
+}
+
+.t-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--border-gold);
+  flex-shrink: 0;
+}
+
+.t-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.t-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--gold-light);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-fast);
+}
+
+.t-name:hover {
+  color: var(--gold-primary);
+}
+
+.t-role {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------------
+   10. CONTACT SECTION
    -------------------------------------------------------------------------- */
 .skill-search-box {
   position: relative;
