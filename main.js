@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCommandPalette();
   initCursorGlow();
   initNavScroll();
+  initTestimonialSlider();
 });
 
 /* --------------------------------------------------------------------------
@@ -390,7 +391,7 @@ function initCommandPalette() {
 
   const commands = [
     { label: 'Jump to Featured Projects', action: () => scrollToSection('projects') },
-    { label: 'Explore Recommendations & Testimonials', action: () => scrollToSection('testimonials') },
+    { label: 'Explore Testimonials & Endorsements', action: () => scrollToSection('testimonials') },
     { label: 'Explore Skills & Tooling', action: () => scrollToSection('skills') },
     { label: 'View Experience & Timeline', action: () => scrollToSection('experience') },
     { label: 'Send Message / Contact', action: () => scrollToSection('contact') },
@@ -562,4 +563,94 @@ function initNavScroll() {
       navLinks.classList.toggle('active');
     });
   }
+}
+
+/* --------------------------------------------------------------------------
+   12. TESTIMONIALS CAROUSEL SLIDER ENGINE
+   -------------------------------------------------------------------------- */
+function initTestimonialSlider() {
+  const track = document.getElementById('testimonialTrack');
+  const prevBtn = document.getElementById('tPrevBtn');
+  const nextBtn = document.getElementById('tNextBtn');
+  const dotsContainer = document.getElementById('tDotsContainer');
+  const viewport = document.getElementById('tViewport');
+
+  if (!track || !prevBtn || !nextBtn || !dotsContainer || !viewport) return;
+
+  const slides = track.querySelectorAll('.testimonial-slide');
+  const totalSlides = slides.length;
+  if (totalSlides === 0) return;
+
+  let currentIndex = 0;
+  let autoplayTimer = null;
+
+  // Render Dots
+  dotsContainer.innerHTML = Array.from({ length: totalSlides }).map((_, i) => `
+    <div class="dot ${i === 0 ? 'active' : ''}" onclick="goToTestimonial(${i})"></div>
+  `).join('');
+
+  const dots = dotsContainer.querySelectorAll('.dot');
+
+  window.goToTestimonial = function(index) {
+    currentIndex = (index + totalSlides) % totalSlides;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === currentIndex);
+    });
+
+    playSound('click');
+  };
+
+  prevBtn.addEventListener('click', () => {
+    goToTestimonial(currentIndex - 1);
+    restartAutoplay();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    goToTestimonial(currentIndex + 1);
+    restartAutoplay();
+  });
+
+  function startAutoplay() {
+    autoplayTimer = setInterval(() => {
+      goToTestimonial(currentIndex + 1);
+    }, 6000);
+  }
+
+  function restartAutoplay() {
+    clearInterval(autoplayTimer);
+    startAutoplay();
+  }
+
+  viewport.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
+  viewport.addEventListener('mouseleave', () => startAutoplay());
+
+  // Touch Swipe Support for Mobile
+  let startX = 0;
+  let isSwiping = false;
+
+  viewport.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isSwiping = true;
+    clearInterval(autoplayTimer);
+  });
+
+  viewport.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        goToTestimonial(currentIndex + 1);
+      } else {
+        goToTestimonial(currentIndex - 1);
+      }
+    }
+    isSwiping = false;
+    startAutoplay();
+  });
+
+  startAutoplay();
 }
