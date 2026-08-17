@@ -631,7 +631,7 @@ function initNavScroll() {
 }
 
 /* --------------------------------------------------------------------------
-   12. TESTIMONIALS CAROUSEL SLIDER ENGINE
+   12. TESTIMONIALS CAROUSEL SLIDER ENGINE (AUTO-ROTATE & MANUAL CONTROLS)
    -------------------------------------------------------------------------- */
 function initTestimonialSlider() {
   const track = document.getElementById('testimonialTrack');
@@ -647,16 +647,16 @@ function initTestimonialSlider() {
   if (totalSlides === 0) return;
 
   let currentIndex = 0;
-  let autoplayTimer = null;
+  let autoplayInterval = null;
 
   // Render Dots
   dotsContainer.innerHTML = Array.from({ length: totalSlides }).map((_, i) => `
-    <div class="dot ${i === 0 ? 'active' : ''}" onclick="goToTestimonial(${i})"></div>
+    <div class="dot ${i === 0 ? 'active' : ''}" onclick="goToTestimonial(${i}, true)"></div>
   `).join('');
 
   const dots = dotsContainer.querySelectorAll('.dot');
 
-  window.goToTestimonial = function(index) {
+  window.goToTestimonial = function(index, manual = false) {
     currentIndex = (index + totalSlides) % totalSlides;
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
 
@@ -664,32 +664,34 @@ function initTestimonialSlider() {
       d.classList.toggle('active', i === currentIndex);
     });
 
-    playSound('click');
+    if (manual) {
+      playSound('click');
+      resetAutoplayTimer();
+    }
   };
 
-  prevBtn.addEventListener('click', () => {
-    goToTestimonial(currentIndex - 1);
-    restartAutoplay();
-  });
+  prevBtn.addEventListener('click', () => goToTestimonial(currentIndex - 1, true));
+  nextBtn.addEventListener('click', () => goToTestimonial(currentIndex + 1, true));
 
-  nextBtn.addEventListener('click', () => {
-    goToTestimonial(currentIndex + 1);
-    restartAutoplay();
-  });
-
-  function startAutoplay() {
-    autoplayTimer = setInterval(() => {
-      goToTestimonial(currentIndex + 1);
-    }, 6000);
+  function startAutoplayTimer() {
+    if (autoplayInterval) clearInterval(autoplayInterval);
+    autoplayInterval = setInterval(() => {
+      goToTestimonial(currentIndex + 1, false);
+    }, 5500);
   }
 
-  function restartAutoplay() {
-    clearInterval(autoplayTimer);
-    startAutoplay();
+  function resetAutoplayTimer() {
+    if (autoplayInterval) clearInterval(autoplayInterval);
+    startAutoplayTimer();
   }
 
-  viewport.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
-  viewport.addEventListener('mouseleave', () => startAutoplay());
+  viewport.addEventListener('mouseenter', () => {
+    if (autoplayInterval) clearInterval(autoplayInterval);
+  });
+
+  viewport.addEventListener('mouseleave', () => {
+    startAutoplayTimer();
+  });
 
   // Touch Swipe Support for Mobile
   let startX = 0;
@@ -698,8 +700,8 @@ function initTestimonialSlider() {
   viewport.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
     isSwiping = true;
-    clearInterval(autoplayTimer);
-  });
+    if (autoplayInterval) clearInterval(autoplayInterval);
+  }, { passive: true });
 
   viewport.addEventListener('touchend', (e) => {
     if (!isSwiping) return;
@@ -708,14 +710,15 @@ function initTestimonialSlider() {
 
     if (Math.abs(diff) > 40) {
       if (diff > 0) {
-        goToTestimonial(currentIndex + 1);
+        goToTestimonial(currentIndex + 1, true);
       } else {
-        goToTestimonial(currentIndex - 1);
+        goToTestimonial(currentIndex - 1, true);
       }
     }
     isSwiping = false;
-    startAutoplay();
-  });
+    startAutoplayTimer();
+  }, { passive: true });
 
-  startAutoplay();
+  // Start auto-play timer on initialization
+  startAutoplayTimer();
 }
