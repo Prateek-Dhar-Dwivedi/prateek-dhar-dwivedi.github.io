@@ -3048,3 +3048,518 @@ footer p {
     animation: none;
   }
 }
+
+/* ==========================================================================
+   MOBILE HERO + NAVBAR FIX
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* =========================================================
+     NAVBAR — FIX "PRATEEK DHAR" GETTING CUT
+     ========================================================= */
+
+  nav {
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+
+    padding: 0 14px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+  }
+
+  .logo {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    overflow: hidden;
+  }
+
+  .nav-logo-img {
+    width: 32px;
+    height: 32px;
+
+    flex: 0 0 32px;
+  }
+
+  .logo-name {
+    display: block;
+
+    max-width: none;
+    width: auto;
+
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+
+    font-size: 0.95rem;
+    line-height: 1;
+
+    flex: 1;
+  }
+
+  .logo-tag {
+    display: none;
+  }
+
+  .nav-actions {
+    flex: 0 0 auto;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-left: 8px;
+  }
+
+  .nav-resume-desktop {
+    display: inline-flex;
+
+    padding: 9px 16px;
+
+    font-size: 0.8rem;
+    white-space: nowrap;
+
+    flex-shrink: 0;
+  }
+
+  .sound-toggle-btn {
+    display: none;
+  }
+
+  .mobile-toggle {
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 7px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+
+    background: rgba(255,255,255,0.04);
+  }
+
+
+  /* =========================================================
+     HERO — STOP EVERYTHING FROM OVERFLOWING
+     ========================================================= */
+
+  .hero {
+    width: 100%;
+    min-width: 0;
+
+    min-height: calc(100vh - 64px);
+
+    padding: 7rem 26px 3rem;
+
+    display: flex;
+    align-items: flex-start;
+
+    overflow: hidden;
+  }
+
+  .hero-container {
+    width: 100%;
+    max-width: 100%;
+
+    min-width: 0;
+
+    overflow: hidden;
+  }
+
+
+  /* =========================================================
+     HERO BADGE
+     ========================================================= */
+
+  .hero-badge {
+    max-width: 100%;
+
+    font-size: 0.68rem;
+
+    padding: 6px 12px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    margin-bottom: 1.25rem;
+  }
+
+
+  /* =========================================================
+     HERO TITLE — MAIN FIX
+     ========================================================= */
+
+  .hero-title {
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(2rem, 8.2vw, 2.8rem);
+
+    line-height: 1.08;
+
+    letter-spacing: -0.045em;
+
+    margin-bottom: 1.25rem;
+
+    overflow: visible;
+
+    word-break: normal;
+    overflow-wrap: normal;
+
+    hyphens: none;
+  }
+
+  .hero-title-br {
+    display: block;
+  }
+
+  /* Make the highlighted part behave properly */
+  .gradient-text {
+    display: inline;
+  }
+
+
+  /* =========================================================
+     TYPING SUBTITLE
+     ========================================================= */
+
+  .hero-subtitle {
+    width: 100%;
+    max-width: 100%;
+
+    display: block;
+
+    font-size: 1rem;
+
+    line-height: 1.5;
+
+    margin-bottom: 1.5rem;
+
+    overflow: hidden;
+  }
+
+  .typing-prefix {
+    margin-right: 4px;
+  }
+
+
+  /* =========================================================
+     HERO BIO — PREVENT HORIZONTAL OVERFLOW
+     ========================================================= */
+
+  .hero-bio {
+    width: 100%;
+    max-width: 100%;
+
+    font-size: 0.95rem;
+
+    line-height: 1.7;
+
+    margin-bottom: 2rem;
+
+    overflow-wrap: break-word;
+    word-break: normal;
+
+    color: var(--text-muted);
+  }
+
+
+  /* =========================================================
+     HERO BUTTONS
+     ========================================================= */
+
+  .hero-ctas {
+    width: 100%;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.75rem;
+
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-ctas .btn {
+    width: 100%;
+    max-width: 100%;
+
+    min-height: 52px;
+
+    justify-content: center;
+
+    padding: 0.8rem 1rem;
+
+    font-size: 0.9rem;
+
+    overflow: hidden;
+  }
+
+
+  /* =========================================================
+     HERO STATS — CLEAN 3 COLUMN LAYOUT
+     ========================================================= */
+
+  .hero-stats {
+    width: 100%;
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 7px;
+
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    width: 100%;
+    min-width: 0;
+
+    padding: 1rem 0.3rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    overflow: hidden;
+  }
+
+  .stat-num {
+    font-size: 1.35rem;
+
+    line-height: 1.1;
+
+    white-space: nowrap;
+  }
+
+  .stat-plus {
+    font-size: 0.8rem;
+  }
+
+  .stat-label {
+    width: 100%;
+
+    margin-top: 6px;
+
+    font-size: 0.52rem;
+
+    line-height: 1.2;
+
+    letter-spacing: 0;
+
+    white-space: normal;
+
+    overflow-wrap: break-word;
+  }
+
+
+  /* =========================================================
+     NEURAL BACKGROUND — REDUCE VISUAL CHAOS
+     ========================================================= */
+
+  #neuralCanvas {
+    opacity: 0.55;
+  }
+
+  .hero-glow-1 {
+    width: 280px;
+    height: 280px;
+
+    opacity: 0.55;
+  }
+
+  .hero-glow-2 {
+    width: 250px;
+    height: 250px;
+
+    opacity: 0.45;
+  }
+}
+
+
+/* ==========================================================================
+   SMALL PHONES
+   ========================================================================== */
+
+@media (max-width: 480px) {
+
+  /* =========================================================
+     NAVBAR
+     ========================================================= */
+
+  nav {
+    padding: 0 12px;
+  }
+
+  .logo {
+    gap: 7px;
+  }
+
+  .nav-logo-img {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  .logo-name {
+    font-size: 0.9rem;
+  }
+
+  .nav-actions {
+    gap: 6px;
+    margin-left: 6px;
+  }
+
+  .nav-resume-desktop {
+    padding: 8px 13px;
+    font-size: 0.76rem;
+  }
+
+  .mobile-toggle {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+
+  /* =========================================================
+     HERO
+     ========================================================= */
+
+  .hero {
+    padding: 6.5rem 20px 2.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.85rem, 8.7vw, 2.35rem);
+
+    line-height: 1.08;
+
+    letter-spacing: -0.04em;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .hero-bio {
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+
+
+  /* =========================================================
+     BUTTONS
+     ========================================================= */
+
+  .hero-ctas .btn {
+    min-height: 50px;
+
+    font-size: 0.84rem;
+  }
+
+
+  /* =========================================================
+     STATS
+     ========================================================= */
+
+  .hero-stats {
+    gap: 5px;
+  }
+
+  .stat-card {
+    padding: 0.9rem 0.2rem;
+
+    border-radius: 10px;
+  }
+
+  .stat-num {
+    font-size: 1.15rem;
+  }
+
+  .stat-plus {
+    font-size: 0.7rem;
+  }
+
+  .stat-label {
+    font-size: 0.48rem;
+  }
+}
+
+
+/* ==========================================================================
+   VERY SMALL PHONES — 360px
+   ========================================================================== */
+
+@media (max-width: 360px) {
+
+  nav {
+    padding: 0 9px;
+  }
+
+  .nav-logo-img {
+    width: 28px;
+    height: 28px;
+
+    flex-basis: 28px;
+  }
+
+  .logo-name {
+    font-size: 0.82rem;
+  }
+
+  .nav-resume-desktop {
+    padding: 7px 10px;
+    font-size: 0.7rem;
+  }
+
+  .mobile-toggle {
+    width: 34px;
+    height: 34px;
+
+    flex-basis: 34px;
+  }
+
+  .hero {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-bio {
+    font-size: 0.82rem;
+  }
+
+  .stat-num {
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.44rem;
+  }
+}
