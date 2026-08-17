@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   1. NEURAL PARTICLE CANVAS PHYSICS
+   1. ADVANCED NEURAL SYNAPSE CANVAS PHYSICS (WITH SIGNAL PULSES & GRAVITY)
    -------------------------------------------------------------------------- */
 function initNeuralCanvas() {
   const canvas = document.getElementById('neuralCanvas');
@@ -24,10 +24,11 @@ function initNeuralCanvas() {
   const ctx = canvas.getContext('2d');
   let width, height;
   let particles = [];
-  const particleCount = 70;
-  const maxDistance = 140;
+  let signalPulses = [];
+  const particleCount = 85;
+  const maxDistance = 150;
 
-  const mouse = { x: null, y: null, radius: 180 };
+  const mouse = { x: null, y: null, radius: 200 };
 
   window.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -40,6 +41,20 @@ function initNeuralCanvas() {
     mouse.y = null;
   });
 
+  // Click shockwave impulse
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+
+    for (let i = 0; i < 12; i++) {
+      const angle = (Math.PI * 2 * i) / 12;
+      const speed = Math.random() * 3 + 2;
+      particles.push(new Particle(cx, cy, Math.cos(angle) * speed, Math.sin(angle) * speed, true));
+    }
+    playSound('synth');
+  });
+
   function resize() {
     width = canvas.width = canvas.parentElement.clientWidth;
     height = canvas.height = canvas.parentElement.clientHeight;
@@ -49,31 +64,39 @@ function initNeuralCanvas() {
   resize();
 
   class Particle {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.8;
-      this.vy = (Math.random() - 0.5) * 0.8;
-      this.radius = Math.random() * 2 + 1;
-      this.color = Math.random() > 0.5 ? '#eab308' : '#fef3c7';
+    constructor(x, y, vx, vy, isSpark = false) {
+      this.x = x !== undefined ? x : Math.random() * width;
+      this.y = y !== undefined ? y : Math.random() * height;
+      this.vx = vx !== undefined ? vx : (Math.random() - 0.5) * 0.9;
+      this.vy = vy !== undefined ? vy : (Math.random() - 0.5) * 0.9;
+      this.radius = isSpark ? Math.random() * 2 + 1 : Math.random() * 2.5 + 1.2;
+      this.color = Math.random() > 0.4 ? '#eab308' : '#fef3c7';
+      this.isSpark = isSpark;
+      this.life = isSpark ? 60 : Infinity;
     }
 
     update() {
       this.x += this.vx;
       this.y += this.vy;
 
-      if (this.x < 0 || this.x > width) this.vx *= -1;
-      if (this.y < 0 || this.y > height) this.vy *= -1;
+      if (this.isSpark) {
+        this.life--;
+        this.vx *= 0.96;
+        this.vy *= 0.96;
+      } else {
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
 
-      // Mouse attraction / push physics
-      if (mouse.x !== null && mouse.y !== null) {
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < mouse.radius) {
-          const force = (mouse.radius - dist) / mouse.radius;
-          this.x -= (dx / dist) * force * 2;
-          this.y -= (dy / dist) * force * 2;
+        // Cursor magnetic gravity physics
+        if (mouse.x !== null && mouse.y !== null) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouse.radius) {
+            const force = (mouse.radius - dist) / mouse.radius;
+            this.x += (dx / dist) * force * 1.8;
+            this.y += (dy / dist) * force * 1.8;
+          }
         }
       }
     }
@@ -82,8 +105,35 @@ function initNeuralCanvas() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = this.color;
-      ctx.shadowBlur = 8;
+      ctx.shadowBlur = this.isSpark ? 12 : 8;
       ctx.shadowColor = this.color;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  class SignalPulse {
+    constructor(p1, p2) {
+      this.p1 = p1;
+      this.p2 = p2;
+      this.progress = 0;
+      this.speed = Math.random() * 0.02 + 0.015;
+    }
+
+    update() {
+      this.progress += this.speed;
+    }
+
+    draw() {
+      if (this.progress > 1) return;
+      const x = this.p1.x + (this.p2.x - this.p1.x) * this.progress;
+      const y = this.p1.y + (this.p2.y - this.p1.y) * this.progress;
+
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = '#eab308';
       ctx.fill();
       ctx.shadowBlur = 0;
     }
@@ -96,6 +146,8 @@ function initNeuralCanvas() {
   function animate() {
     ctx.clearRect(0, 0, width, height);
 
+    particles = particles.filter(p => !p.isSpark || p.life > 0);
+
     for (let i = 0; i < particles.length; i++) {
       particles[i].update();
       particles[i].draw();
@@ -106,16 +158,29 @@ function initNeuralCanvas() {
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < maxDistance) {
-          const opacity = (1 - dist / maxDistance) * 0.25;
+          const opacity = (1 - dist / maxDistance) * 0.35;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.strokeStyle = `rgba(234, 179, 8, ${opacity})`;
-          ctx.lineWidth = 0.8;
+          ctx.lineWidth = 0.9;
           ctx.stroke();
+
+          if (Math.random() < 0.0015 && signalPulses.length < 15) {
+            signalPulses.push(new SignalPulse(particles[i], particles[j]));
+          }
         }
       }
     }
+
+    for (let k = signalPulses.length - 1; k >= 0; k--) {
+      signalPulses[k].update();
+      signalPulses[k].draw();
+      if (signalPulses[k].progress >= 1) {
+        signalPulses.splice(k, 1);
+      }
+    }
+
     requestAnimationFrame(animate);
   }
 
