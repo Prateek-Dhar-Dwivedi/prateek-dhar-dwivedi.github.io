@@ -775,13 +775,15 @@ nav.scrolled {
   overflow: hidden;
   border-radius: var(--radius-lg);
   padding: 0.5rem 0;
+  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: height;
 }
 
 .testimonial-slider-track {
   display: flex;
   transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
-  align-items: stretch;
+  align-items: flex-start;
 }
 
 .testimonial-slide {
@@ -790,6 +792,7 @@ nav.scrolled {
   padding: 0 0.5rem;
   box-sizing: border-box;
   display: flex;
+  align-items: flex-start;
 }
 
 .compact-t-card {
@@ -804,6 +807,7 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .compact-t-card:hover {

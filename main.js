@@ -631,7 +631,7 @@ function initNavScroll() {
 }
 
 /* --------------------------------------------------------------------------
-   12. TESTIMONIALS CAROUSEL SLIDER ENGINE (AUTO-ROTATE & MANUAL CONTROLS)
+   12. TESTIMONIALS CAROUSEL SLIDER ENGINE (DYNAMIC HEIGHT & AUTO-ROTATE)
    -------------------------------------------------------------------------- */
 function initTestimonialSlider() {
   const track = document.getElementById('testimonialTrack');
@@ -656,6 +656,16 @@ function initTestimonialSlider() {
 
   const dots = dotsContainer.querySelectorAll('.dot');
 
+  function updateViewportHeight() {
+    if (slides[currentIndex]) {
+      const activeCard = slides[currentIndex].querySelector('.compact-t-card');
+      const cardHeight = activeCard ? activeCard.offsetHeight : slides[currentIndex].offsetHeight;
+      if (cardHeight > 0) {
+        viewport.style.height = (cardHeight + 16) + 'px';
+      }
+    }
+  }
+
   window.goToTestimonial = function(index, manual = false) {
     currentIndex = (index + totalSlides) % totalSlides;
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -663,6 +673,8 @@ function initTestimonialSlider() {
     dots.forEach((d, i) => {
       d.classList.toggle('active', i === currentIndex);
     });
+
+    updateViewportHeight();
 
     if (manual) {
       playSound('click');
@@ -677,7 +689,7 @@ function initTestimonialSlider() {
     if (autoplayInterval) clearInterval(autoplayInterval);
     autoplayInterval = setInterval(() => {
       goToTestimonial(currentIndex + 1, false);
-    }, 5500);
+    }, 5000);
   }
 
   function resetAutoplayTimer() {
@@ -692,6 +704,8 @@ function initTestimonialSlider() {
   viewport.addEventListener('mouseleave', () => {
     startAutoplayTimer();
   });
+
+  window.addEventListener('resize', updateViewportHeight);
 
   // Touch Swipe Support for Mobile
   let startX = 0;
@@ -719,6 +733,8 @@ function initTestimonialSlider() {
     startAutoplayTimer();
   }, { passive: true });
 
-  // Start auto-play timer on initialization
+  // Initial calculation and start timer
+  setTimeout(updateViewportHeight, 150);
+  setTimeout(updateViewportHeight, 600);
   startAutoplayTimer();
 }
