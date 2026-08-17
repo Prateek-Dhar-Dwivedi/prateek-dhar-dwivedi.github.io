@@ -57,7 +57,6 @@
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
-  scrollbar-gutter: stable;
   width: 100% !important;
   max-width: 100vw !important;
   overflow-x: hidden !important;
@@ -428,6 +427,14 @@ nav.scrolled {
 .nav-resume:hover {
   opacity: 0.95;
   transform: translateY(-1px);
+}
+
+.mobile-resume-item {
+  display: none;
+}
+
+.hero-title-br {
+  display: none;
 }
 
 .mobile-toggle {
@@ -1991,6 +1998,25 @@ footer p {
     display: flex;
   }
 
+  .mobile-resume-item {
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  .nav-resume-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-deep));
+    color: #0b0e14;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
   .about-grid, .contact-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
@@ -2007,6 +2033,10 @@ footer p {
     line-height: 1.18;
     word-break: normal;
     overflow-wrap: break-word;
+  }
+
+  .hero-title-br {
+    display: block;
   }
 
   .hero-ctas {
@@ -2076,6 +2106,12 @@ footer p {
   }
 }
 
+@media (max-width: 600px) {
+  .nav-resume-desktop {
+    display: none;
+  }
+}
+
 @media (max-width: 480px) {
   .hero {
     padding: 5.5rem 4% 2.5rem;
@@ -2125,11 +2161,6 @@ footer p {
     max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .nav-resume {
-    padding: 0.4rem 0.7rem;
-    font-size: 0.74rem;
   }
 
   .sound-toggle-btn {
