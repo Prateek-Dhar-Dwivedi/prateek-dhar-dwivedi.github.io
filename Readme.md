@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Prateek Dhar Dwivedi — Portfolio
+#  Prateek Dhar Dwivedi — Portfolio
 
 **A modern, interactive developer portfolio built with vanilla HTML5, CSS Design Tokens & JavaScript**
 
