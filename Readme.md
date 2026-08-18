@@ -4,8 +4,8 @@
 
 **A modern, interactive developer portfolio built with vanilla HTML5, CSS Design Tokens & JavaScript**
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_Portfolio-eab308?style=for-the-badge&logoColor=white)](https://prateek-dhar-dwivedi.github.io/-Portfolio/)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Prateek-Dhar-Dwivedi/-Portfolio)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_Portfolio-eab308?style=for-the-badge&logoColor=white)](https://prateek-dhar-dwivedi.github.io/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Prateek-Dhar-Dwivedi/prateek-dhar-dwivedi.github.io)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/prateek-dhar-dwivedi)
 [![Medium](https://img.shields.io/badge/Medium-Articles-000000?style=for-the-badge&logo=medium)](https://medium.com/@prateekdhardwivedi)
 
