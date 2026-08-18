@@ -458,9 +458,11 @@ function initCommandPalette() {
 
   const commands = [
     { label: 'Jump to Featured Projects', action: () => scrollToSection('projects') },
-    { label: 'Explore Testimonials & Endorsements', action: () => scrollToSection('testimonials') },
     { label: 'Explore Skills & Tooling', action: () => scrollToSection('skills') },
     { label: 'View Experience & Timeline', action: () => scrollToSection('experience') },
+    { label: 'Academic & Education', action: () => scrollToSection('education') },
+    { label: 'Latest Insights & Articles', action: () => scrollToSection('insights') },
+    { label: 'Explore Testimonials & Endorsements', action: () => scrollToSection('testimonials') },
     { label: 'Send Message / Contact', action: () => scrollToSection('contact') },
     { label: 'Toggle Audio Sound FX', action: () => toggleSound() },
     { label: 'Open GitHub Profile', action: () => window.open('https://github.com/Prateek-Dhar-Dwivedi', '_blank') }
