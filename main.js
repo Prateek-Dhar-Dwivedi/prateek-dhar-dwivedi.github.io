@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initCursorGlow();
   initNavScroll();
   initTestimonialSlider();
+  initMediumInsights();
+  initScrollToTop();
 });
 
 /* --------------------------------------------------------------------------
@@ -737,4 +739,160 @@ function initTestimonialSlider() {
   setTimeout(updateViewportHeight, 150);
   setTimeout(updateViewportHeight, 600);
   startAutoplayTimer();
+}
+
+/* --------------------------------------------------------------------------
+   10. MEDIUM INSIGHTS — LIVE RSS FEED INTEGRATION
+   -------------------------------------------------------------------------- */
+function initMediumInsights() {
+  const grid = document.getElementById('insightsGrid');
+  if (!grid) return;
+
+  const MEDIUM_USERNAME = 'prateekdhardwivedi';
+  const RSS_API = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${MEDIUM_USERNAME}`;
+
+  fetch(RSS_API)
+    .then(res => res.json())
+    .then(data => {
+      if (data.status !== 'ok' || !data.items || data.items.length === 0) {
+        renderInsightsEmpty(grid);
+        return;
+      }
+      renderInsightCards(grid, data.items);
+    })
+    .catch(() => {
+      renderInsightsError(grid);
+    });
+}
+
+function renderInsightCards(grid, articles) {
+  grid.innerHTML = '';
+
+  articles.forEach(article => {
+    const thumbnail = extractThumbnail(article);
+    const excerpt = extractExcerpt(article.content || article.description || '');
+    const categories = article.categories || [];
+    const pubDate = formatInsightDate(article.pubDate);
+    const readTime = estimateReadTime(article.content || article.description || '');
+
+    const card = document.createElement('a');
+    card.href = article.link;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    card.className = 'insight-card';
+
+    card.innerHTML = `
+      ${thumbnail ? `
+      <div class="insight-card-img-wrapper">
+        <img src="${thumbnail}" alt="${escapeHtml(article.title)}" class="insight-card-img" loading="lazy" />
+      </div>` : ''}
+      <div class="insight-card-body">
+        <div class="insight-card-meta">
+          <span class="insight-date">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            ${pubDate}
+          </span>
+          <span class="insight-meta-dot"></span>
+          <span class="insight-read-time">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${readTime} min read
+          </span>
+        </div>
+        <h3 class="insight-card-title">${escapeHtml(article.title)}</h3>
+        <p class="insight-card-excerpt">${escapeHtml(excerpt)}</p>
+        <div class="insight-card-tags">
+          ${categories.slice(0, 4).map(tag => `<span class="insight-tag">${escapeHtml(tag)}</span>`).join('')}
+        </div>
+      </div>
+      <div class="insight-card-footer">
+        <span class="insight-read-more">
+          Read Article
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+        <svg class="insight-medium-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 6.38c.02-.2-.05-.39-.19-.53L.31 4.03V3.7h4.7l3.63 7.96 3.19-7.96h4.49v.33l-1.28 1.23c-.11.08-.16.22-.13.35v9.06c-.03.13.02.27.13.35l1.25 1.23v.33h-6.29v-.33l1.3-1.26c.13-.13.13-.16.13-.35V7.27l-3.61 9.27h-.49L3.18 7.27v6.19c-.04.25.04.5.22.67l1.69 2.05v.33H.31v-.33L2 14.13c.18-.17.26-.42.21-.67V6.38z"/></svg>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+function extractThumbnail(article) {
+  if (article.thumbnail && article.thumbnail.length > 0) {
+    return article.thumbnail;
+  }
+  const content = article.content || article.description || '';
+  const imgMatch = content.match(/<img[^>]+src=["']([^"']+)["']/);
+  return imgMatch ? imgMatch[1] : '';
+}
+
+function extractExcerpt(htmlContent) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = htmlContent;
+  const text = tmp.textContent || tmp.innerText || '';
+  const cleaned = text.replace(/\s+/g, ' ').trim();
+  return cleaned.length > 200 ? cleaned.substring(0, 200) + '…' : cleaned;
+}
+
+function formatInsightDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function estimateReadTime(htmlContent) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = htmlContent;
+  const text = tmp.textContent || tmp.innerText || '';
+  const words = text.trim().split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 230));
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+}
+
+function renderInsightsError(grid) {
+  grid.innerHTML = `
+    <div class="insights-error">
+      <div class="insights-error-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h4>Unable to Load Articles</h4>
+      <p>Could not fetch the latest articles from Medium. Please visit my <a href="https://medium.com/@prateekdhardwivedi" target="_blank" style="color: var(--gold-primary);">Medium profile</a> directly.</p>
+    </div>
+  `;
+}
+
+function renderInsightsEmpty(grid) {
+  grid.innerHTML = `
+    <div class="insights-empty">
+      <div class="insights-empty-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <h4>No Articles Yet</h4>
+      <p>New articles are on the way! Follow me on <a href="https://medium.com/@prateekdhardwivedi" target="_blank" style="color: var(--gold-primary);">Medium</a> to stay updated.</p>
+    </div>
+  `;
+}
+
+/* --------------------------------------------------------------------------
+   11. SCROLL TO TOP BUTTON
+   -------------------------------------------------------------------------- */
+function initScrollToTop() {
+  const btn = document.getElementById('scrollTopBtn');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 }

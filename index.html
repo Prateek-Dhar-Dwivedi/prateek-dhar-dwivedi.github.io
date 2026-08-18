@@ -46,6 +46,7 @@
       <li><a href="#projects">Projects</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#insights">Insights</a></li>
       <li><a href="#contact">Contact</a></li>
       <li class="mobile-resume-item">
         <a href="assets/resume.pdf" target="_blank" class="nav-resume-mobile">
@@ -1148,6 +1149,49 @@
 
   <div class="section-divider"></div>
 
+  <!-- LATEST INSIGHTS — MEDIUM ARTICLES SECTION -->
+  <section id="insights" class="section-padding">
+    <div class="container">
+      <div class="section-header center">
+        <span class="section-eyebrow">// LATEST INSIGHTS</span>
+        <h2 class="section-title">Articles from Medium</h2>
+        <p class="section-subtitle">Thoughts, case studies, and technical deep-dives on AI, full-stack development, and software engineering.</p>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div class="insights-grid" id="insightsGrid">
+        <div class="insight-skeleton glass-card">
+          <div class="skel-img shimmer"></div>
+          <div class="skel-line shimmer" style="width:80%"></div>
+          <div class="skel-line shimmer" style="width:60%"></div>
+          <div class="skel-line shimmer" style="width:40%"></div>
+        </div>
+        <div class="insight-skeleton glass-card">
+          <div class="skel-img shimmer"></div>
+          <div class="skel-line shimmer" style="width:75%"></div>
+          <div class="skel-line shimmer" style="width:55%"></div>
+          <div class="skel-line shimmer" style="width:35%"></div>
+        </div>
+        <div class="insight-skeleton glass-card">
+          <div class="skel-img shimmer"></div>
+          <div class="skel-line shimmer" style="width:70%"></div>
+          <div class="skel-line shimmer" style="width:50%"></div>
+          <div class="skel-line shimmer" style="width:45%"></div>
+        </div>
+      </div>
+
+      <!-- View All on Medium CTA -->
+      <div class="insights-cta">
+        <a href="https://medium.com/@prateekdhardwivedi" target="_blank" class="btn btn-secondary">
+          <span>View All on Medium</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- CONTACT SECTION -->
   <section id="contact" class="section-padding">
     <div class="container">
@@ -1224,12 +1268,12 @@
 
             <div class="form-group">
               <label for="nameInput">Your Name</label>
-              <input type="text" id="nameInput" name="name" placeholder="John Doe" required />
+              <input type="text" id="nameInput" name="name" placeholder="Ramu Yadav" required />
             </div>
 
             <div class="form-group">
               <label for="emailInput">Your Email</label>
-              <input type="email" id="emailInput" name="email" placeholder="john@example.com" required />
+              <input type="email" id="emailInput" name="email" placeholder="ramu@example.com" required />
             </div>
 
             <div class="form-group">
@@ -1293,6 +1337,11 @@
 
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SCROLL TO TOP BUTTON -->
+  <button class="scroll-top-btn" id="scrollTopBtn" title="Back to Top" aria-label="Scroll to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
 
   <!-- Main JavaScript File with Cache-Busting -->
   <script src="main.js?v=22.0"></script>
