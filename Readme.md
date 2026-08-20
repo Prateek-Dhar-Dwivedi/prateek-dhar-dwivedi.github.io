@@ -8,6 +8,7 @@
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Prateek-Dhar-Dwivedi/prateek-dhar-dwivedi.github.io)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/prateek-dhar-dwivedi)
 [![Medium](https://img.shields.io/badge/Medium-Articles-000000?style=for-the-badge&logo=medium)](https://medium.com/@prateekdhardwivedi)
+[![Instagram](https://img.shields.io/badge/Instagram-Follow-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/prateekdhardwivedi/)
 
 <br/>
 
@@ -158,6 +159,7 @@ Any push to `main` automatically triggers a new deployment.
 | 💼 LinkedIn | [linkedin.com/in/prateek-dhar-dwivedi](https://linkedin.com/in/prateek-dhar-dwivedi) |
 | 🐙 GitHub | [github.com/Prateek-Dhar-Dwivedi](https://github.com/Prateek-Dhar-Dwivedi) |
 | ✍️ Medium | [medium.com/@prateekdhardwivedi](https://medium.com/@prateekdhardwivedi) |
+| 📸 Instagram | [instagram.com/prateekdhardwivedi](https://www.instagram.com/prateekdhardwivedi/) |
 | 🐦 Twitter / X | [x.com/prateekdhard](https://twitter.com/prateekdhard) |
 | 📧 Email | [prateekdhardwivedi4@gmail.com](mailto:prateekdhardwivedi4@gmail.com) |
 
