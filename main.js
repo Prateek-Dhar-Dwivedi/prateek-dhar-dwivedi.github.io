@@ -762,20 +762,75 @@ function initMediumInsights() {
   if (!grid) return;
 
   const MEDIUM_USERNAME = 'prateekdhardwivedi';
-  const RSS_API = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${MEDIUM_USERNAME}`;
+  const rssUrl = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
+  const timestamp = Date.now();
+  const RSS_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&_t=${timestamp}`;
 
+  // Primary: Fast JSON via rss2json with timestamp cache-buster
   fetch(RSS_API)
     .then(res => res.json())
     .then(data => {
-      if (data.status !== 'ok' || !data.items || data.items.length === 0) {
-        renderInsightsEmpty(grid);
+      if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
+        renderInsightCards(grid, data.items);
         return;
       }
-      renderInsightCards(grid, data.items);
+      throw new Error('Empty or invalid rss2json payload');
     })
     .catch(() => {
-      renderInsightsError(grid);
+      // Fallback: Fetch raw RSS via CORS proxy and parse natively with DOMParser
+      fetchViaCorsProxy(rssUrl, timestamp)
+        .then(items => {
+          if (items && items.length > 0) {
+            renderInsightCards(grid, items);
+          } else {
+            renderInsightsEmpty(grid);
+          }
+        })
+        .catch(() => {
+          renderInsightsError(grid);
+        });
     });
+}
+
+async function fetchViaCorsProxy(rssUrl, timestamp) {
+  const proxyUrls = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl + '?t=' + timestamp)}`,
+    `https://corsproxy.io/?url=${encodeURIComponent(rssUrl + '?t=' + timestamp)}`
+  ];
+
+  for (const proxyUrl of proxyUrls) {
+    try {
+      const res = await fetch(proxyUrl);
+      if (!res.ok) continue;
+      const xmlText = await res.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+      const items = Array.from(xmlDoc.querySelectorAll('item'));
+      if (items.length > 0) {
+        return items.map(item => {
+          const title = item.querySelector('title')?.textContent || '';
+          const link = item.querySelector('link')?.textContent || '';
+          const pubDate = item.querySelector('pubDate')?.textContent || '';
+          const encoded = item.getElementsByTagNameNS('http://purl.org/rss/1.0/modules/content/', 'encoded')[0]?.textContent || '';
+          const description = item.querySelector('description')?.textContent || '';
+          const content = encoded || description;
+          const categories = Array.from(item.querySelectorAll('category')).map(c => c.textContent);
+
+          return {
+            title,
+            link,
+            pubDate,
+            content,
+            description,
+            categories
+          };
+        });
+      }
+    } catch (e) {
+      // try next proxy
+    }
+  }
+  return null;
 }
 
 function renderInsightCards(grid, articles) {
