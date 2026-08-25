@@ -389,6 +389,15 @@ const projectDetails = {
     github: 'https://github.com/Prateek-Dhar-Dwivedi/NIELIT_MERN',
     demo: 'https://nielit-mern-rho.vercel.app/'
   },
+  ecell: {
+    title: 'N.E.X.T. — NIELIT E-Cell Portal',
+    category: 'Frontend & Community Showcase',
+    image: 'assets/ecell_real.png',
+    description: 'The official digital landing and visitor platform for N.E.X.T. (NIELIT Entrepreneurship eXperience & Transformation). Engineered as a modern responsive showcase highlighting student startup initiatives, upcoming events, leadership teams, and community milestones with fluid animations.',
+    tech: ['React.js', 'Framer Motion', 'Custom CSS3', 'JavaScript ES6', 'Vercel Deployment'],
+    github: 'https://github.com/Prateek-Dhar-Dwivedi/NIELIT_ECELL',
+    demo: 'https://nielit-ecell.vercel.app/'
+  },
   pythonapp: {
     title: 'NIELIT Python Web System',
     category: 'Python Web Development',
