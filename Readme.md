@@ -12,7 +12,7 @@
 
 <br/>
 
-<img src="assets/Portfolio2.png" alt="Portfolio Preview" width="90%" />
+<img src="assets/portfolio2.png" alt="Portfolio Preview" width="90%" />
 
 </div>
 
