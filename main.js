@@ -629,6 +629,7 @@ function initNavScroll() {
   const nav = document.getElementById('mainNav');
   const mobileToggle = document.getElementById('mobileToggle');
   const navLinks = document.getElementById('navLinks');
+  const navBackdrop = document.getElementById('navBackdrop');
 
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
@@ -639,17 +640,64 @@ function initNavScroll() {
   });
 
   if (mobileToggle && navLinks) {
-    mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      mobileToggle.classList.toggle('active');
+    const closeMenu = () => {
+      navLinks.classList.remove('active');
+      mobileToggle.classList.remove('active');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      if (navBackdrop) navBackdrop.classList.remove('active');
+      document.body.classList.remove('nav-open');
+    };
+
+    const openMenu = () => {
+      navLinks.classList.add('active');
+      mobileToggle.classList.add('active');
+      mobileToggle.setAttribute('aria-expanded', 'true');
+      if (navBackdrop) navBackdrop.classList.add('active');
+      document.body.classList.add('nav-open');
+    };
+
+    const toggleMenu = () => {
+      if (navLinks.classList.contains('active')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    };
+
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
     });
+
+    if (navBackdrop) {
+      navBackdrop.addEventListener('click', closeMenu);
+    }
 
     const links = navLinks.querySelectorAll('a');
     links.forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        mobileToggle.classList.remove('active');
-      });
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !mobileToggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+        closeMenu();
+        mobileToggle.focus();
+      }
+    });
+
+    // Close when resized back to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1200 && navLinks.classList.contains('active')) {
+        closeMenu();
+      }
     });
   }
 }

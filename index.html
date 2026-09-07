@@ -84,7 +84,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
   
   <!-- Stylesheet with Cache-Busting -->
-  <link rel="stylesheet" href="style.css?v=26.3" />
+  <link rel="stylesheet" href="style.css?v=26.4" />
 </head>
 <body>
 
@@ -126,11 +126,12 @@
         <span>Resume</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
       </a>
-      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
+  <div class="nav-backdrop" id="navBackdrop"></div>
 
   <!-- HERO SECTION -->
   <section class="hero" id="home">
@@ -1556,6 +1557,6 @@
   </button>
 
   <!-- Main JavaScript File with Cache-Busting -->
-  <script src="main.js?v=26.2"></script>
+  <script src="main.js?v=26.4"></script>
 </body>
 </html>
