@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PRATEEK DHAR DWIVEDI — PORTFOLIO WARM GOLDEN AMBER DESIGN SYSTEM
+   PRATEEK DHAR DWIVEDI - PORTFOLIO WARM GOLDEN AMBER DESIGN SYSTEM
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -2045,7 +2045,7 @@ footer p {
 }
 
 /* ==========================================================================
-   13. RESPONSIVE SYSTEM — MOBILE / TABLET / SMALL DEVICES
+   13. RESPONSIVE SYSTEM - MOBILE / TABLET / SMALL DEVICES
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -3224,7 +3224,7 @@ footer p {
 }
 
 /* ==========================================================================
-   TOUCH DEVICES — REMOVE HOVER JUMPINESS
+   TOUCH DEVICES - REMOVE HOVER JUMPINESS
    ========================================================================== */
 @media (hover: none) and (pointer: coarse) {
 
@@ -3243,7 +3243,7 @@ footer p {
 }
 
 /* ==========================================================================
-   ACCESSIBILITY — REDUCED MOTION
+   ACCESSIBILITY - REDUCED MOTION
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
 
@@ -3267,7 +3267,7 @@ footer p {
 }
 
 /* --------------------------------------------------------------------------
-   LATEST INSIGHTS — MEDIUM ARTICLES SECTION
+   LATEST INSIGHTS - MEDIUM ARTICLES SECTION
    -------------------------------------------------------------------------- */
 .insights-grid {
   display: grid;

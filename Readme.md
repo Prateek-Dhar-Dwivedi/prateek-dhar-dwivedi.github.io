@@ -1,6 +1,6 @@
 <div align="center">
 
-#  Prateek Dhar Dwivedi — Portfolio
+#  Prateek Dhar Dwivedi - Portfolio
 
 **A modern, interactive developer portfolio built with vanilla HTML5, CSS Design Tokens & JavaScript**
 
@@ -34,7 +34,7 @@
 
 ## 🧑‍💻 About
 
-This is the personal portfolio website of **Prateek Dhar Dwivedi** — a B.Tech Computer Science (AI/ML) student at NIELIT Ropar (Deemed to be University). The site showcases my projects, skills, experience, certifications, testimonials, and latest insights from Medium — all built from scratch using zero frameworks.
+This is the personal portfolio website of **Prateek Dhar Dwivedi** - a B.Tech Computer Science (AI/ML) student at NIELIT Ropar (Deemed to be University). The site showcases my projects, skills, experience, certifications, testimonials, and latest insights from Medium - all built from scratch using zero frameworks.
 
 > **Design Philosophy:** Warm Golden-Amber design system on an obsidian dark background, with glassmorphism cards, neural particle physics canvas, and smooth micro-interactions throughout.
 
@@ -46,7 +46,7 @@ This is the personal portfolio website of **Prateek Dhar Dwivedi** — a B.Tech 
 |---|---|
 | 🧠 **Neural Canvas** | Interactive particle physics simulation with signal pulses, gravity, and mouse-reactive connections |
 | ⌨️ **Typing Effect** | Smooth typing animation cycling through specializations |
-| ⚡ **Command Palette** | VS Code–style `Ctrl+K` quick actions for instant section navigation |
+| ⚡ **Command Palette** | VS Code-style `Ctrl+K` quick actions for instant section navigation |
 | 🔍 **Skill Search** | Real-time filter/search across 25+ technical skills |
 | 📊 **Animated Stats** | Counter animations triggered by Intersection Observer |
 | 🎠 **Testimonial Slider** | Touch-enabled carousel with autoplay and pagination dots |
@@ -56,7 +56,7 @@ This is the personal portfolio website of **Prateek Dhar Dwivedi** — a B.Tech 
 | 📱 **Fully Responsive** | Mobile-first design with breakpoints at 1024px, 768px, 480px, and 360px |
 | 🌐 **Tech Marquee** | Auto-scrolling ticker displaying tech stack icons |
 | 🎨 **CSS Design Tokens** | Full custom property system for colors, typography, spacing, and transitions |
-| ✉️ **Contact Form** | FormSubmit-powered form with validation — no backend required |
+| ✉️ **Contact Form** | FormSubmit-powered form with validation - no backend required |
 | 🖱️ **Custom Cursor Glow** | Ambient cursor-following glow effect |
 
 ---
@@ -78,16 +78,16 @@ This is the personal portfolio website of **Prateek Dhar Dwivedi** — a B.Tech 
 
 ## 📑 Sections
 
-1. **Hero** — Headline, typing animation, stats cards, tech marquee
-2. **About** — Profile photo, bio, highlight cards, tech badges
-3. **Skills** — Searchable 4-category grid (AI/ML, Full-Stack, Core Programming, Databases & Cloud)
-4. **Experience** — Interactive timeline with 6 entries (internships, campus roles, academics)
-5. **Projects** — Filterable project grid with 6 projects and deep-dive modals
+1. **Hero** - Headline, typing animation, stats cards, tech marquee
+2. **About** - Profile photo, bio, highlight cards, tech badges
+3. **Skills** - Searchable 4-category grid (AI/ML, Full-Stack, Core Programming, Databases & Cloud)
+4. **Experience** - Interactive timeline with 6 entries (internships, campus roles, academics)
+5. **Projects** - Filterable project grid with 6 projects and deep-dive modals
    - TruthLens AI · Cineora · Velora · NIELIT MERN · NIELIT Python · Personal Portfolio
-6. **Education & Certifications** — Degree card + 8 certification/hackathon cards
-7. **Testimonials** — 9-slide carousel with endorsements from scientists, mentors, and peers
-8. **Latest Insights** — Live Medium articles fetched via RSS with thumbnails, tags, and read time
-9. **Contact** — Email, phone, location, social links, and FormSubmit contact form
+6. **Education & Certifications** - Degree card + 8 certification/hackathon cards
+7. **Testimonials** - 9-slide carousel with endorsements from scientists, mentors, and peers
+8. **Latest Insights** - Live Medium articles fetched via RSS with thumbnails, tags, and read time
+9. **Contact** - Email, phone, location, social links, and FormSubmit contact form
 
 ---
 
@@ -135,7 +135,7 @@ Then open **http://localhost:3000** in your browser.
 | What to change | Where |
 |---|---|
 | Personal info, links, projects | `index.html` |
-| Colors, spacing, typography | CSS Custom Properties in `:root` (`style.css` lines 8–46) |
+| Colors, spacing, typography | CSS Custom Properties in `:root` (`style.css` lines 8-46) |
 | Typing words, project modal data | `main.js` |
 | Medium username | `MEDIUM_USERNAME` in `initMediumInsights()` (`main.js`) |
 

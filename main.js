@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PRATEEK DHAR DWIVEDI — PORTFOLIO CORE INTERACTIVE JAVASCRIPT
+   PRATEEK DHAR DWIVEDI - PORTFOLIO CORE INTERACTIVE JAVASCRIPT
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -354,7 +354,7 @@ function filterProjects(btn, category) {
    -------------------------------------------------------------------------- */
 const projectDetails = {
   truthlens: {
-    title: 'TruthLens — AI Misinformation Fact-Checking Platform',
+    title: 'TruthLens - AI Misinformation Fact-Checking Platform',
     category: 'Full Stack AI & NLP',
     image: 'assets/truthlens_real.png',
     description: 'TruthLens is an automated claim verification engine. It extracts live news via web scraping, computes TF-IDF document vectors to retrieve relevant evidence, and passes claims into an ONNX-quantized DistilBERT Natural Language Inference (NLI) model to assign truth confidence scores.',
@@ -363,7 +363,7 @@ const projectDetails = {
     demo: 'https://truth-lens-lemon.vercel.app/'
   },
   cineora: {
-    title: 'Cineora — Machine Learning Movie Recommendation System',
+    title: 'Cineora - Machine Learning Movie Recommendation System',
     category: 'Full Stack Machine Learning',
     image: 'assets/cineora_real.png',
     description: 'Cineora delivers personalized movie suggestions by implementing content-based vector filtering over TMDB datasets. The backend Flask server calculates cosine similarity matrices across movie genres, overview embeddings, and cast metadata.',
@@ -372,7 +372,7 @@ const projectDetails = {
     demo: 'https://movie-recommender-system-cineora-fr.vercel.app/'
   },
   velora: {
-    title: 'Velora — AI Job Verification & Recommendation Engine',
+    title: 'Velora - AI Job Verification & Recommendation Engine',
     category: 'Full Stack MERN & AI',
     image: 'assets/velora_real.png',
     description: 'Velora combats fraudulent job postings and irrelevant candidate applications. Features resume parsing, match percentage scoring, Google OAuth 2.0 authentication, Cloudinary media upload, and JWT security.',
@@ -390,7 +390,7 @@ const projectDetails = {
     demo: 'https://nielit-mern-rho.vercel.app/'
   },
   ecell: {
-    title: 'N.E.X.T. — NIELIT E-Cell Portal',
+    title: 'N.E.X.T. - NIELIT E-Cell Portal',
     category: 'Frontend & Community Showcase',
     image: 'assets/ecell_real.png',
     description: 'The official digital landing and visitor platform for N.E.X.T. (NIELIT Entrepreneurship eXperience & Transformation). Engineered as a modern responsive showcase highlighting student startup initiatives, upcoming events, leadership teams, and community milestones with fluid animations.',
@@ -812,7 +812,7 @@ function initTestimonialSlider() {
 }
 
 /* --------------------------------------------------------------------------
-   10. MEDIUM INSIGHTS — LIVE RSS FEED INTEGRATION
+   10. MEDIUM INSIGHTS - LIVE RSS FEED INTEGRATION
    -------------------------------------------------------------------------- */
 function initMediumInsights() {
   const grid = document.getElementById('insightsGrid');
