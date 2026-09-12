@@ -821,30 +821,56 @@ function initMediumInsights() {
   const MEDIUM_USERNAME = 'prateekdhardwivedi';
   const rssUrl = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
   const timestamp = Date.now();
-  const RSS_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&_t=${timestamp}`;
 
-  // Primary: Fast JSON via rss2json with timestamp cache-buster
-  fetch(RSS_API)
-    .then(res => res.json())
+  const FEED2JSON_API = `https://feed2json.org/convert?url=${encodeURIComponent(rssUrl)}`;
+  const RSS2JSON_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&_t=${timestamp}`;
+
+  // Primary: Real-time RSS-to-JSON via feed2json (instant updates when new articles are published)
+  fetch(FEED2JSON_API)
+    .then(res => {
+      if (!res.ok) throw new Error('feed2json response not ok');
+      return res.json();
+    })
     .then(data => {
-      if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
-        renderInsightCards(grid, data.items);
+      if (Array.isArray(data.items) && data.items.length > 0) {
+        const normalized = data.items.map(item => ({
+          title: item.title || '',
+          link: item.url || item.link || '',
+          pubDate: item.date_published || item.pubDate || '',
+          content: item.content_html || item.content || item.summary || item.description || '',
+          description: item.summary || item.description || '',
+          thumbnail: item.image || item.thumbnail || '',
+          categories: item.tags || item.categories || []
+        }));
+        renderInsightCards(grid, normalized);
         return;
       }
-      throw new Error('Empty or invalid rss2json payload');
+      throw new Error('Empty feed2json items');
     })
     .catch(() => {
-      // Fallback: Fetch raw RSS via CORS proxy and parse natively with DOMParser
-      fetchViaCorsProxy(rssUrl, timestamp)
-        .then(items => {
-          if (items && items.length > 0) {
-            renderInsightCards(grid, items);
-          } else {
-            renderInsightsEmpty(grid);
+      // Secondary Fallback: rss2json
+      fetch(RSS2JSON_API)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
+            renderInsightCards(grid, data.items);
+            return;
           }
+          throw new Error('Empty or invalid rss2json payload');
         })
         .catch(() => {
-          renderInsightsError(grid);
+          // Tertiary Fallback: Direct XML parsing via CORS proxy
+          fetchViaCorsProxy(rssUrl, timestamp)
+            .then(items => {
+              if (items && items.length > 0) {
+                renderInsightCards(grid, items);
+              } else {
+                renderInsightsEmpty(grid);
+              }
+            })
+            .catch(() => {
+              renderInsightsError(grid);
+            });
         });
     });
 }
@@ -895,10 +921,10 @@ function renderInsightCards(grid, articles) {
 
   articles.forEach(article => {
     const thumbnail = extractThumbnail(article);
-    const excerpt = extractExcerpt(article.content || article.description || '');
-    const categories = article.categories || [];
+    const excerpt = extractExcerpt(article.content || article.content_html || article.description || '');
+    const categories = article.categories || article.tags || [];
     const pubDate = formatInsightDate(article.pubDate);
-    const readTime = estimateReadTime(article.content || article.description || '');
+    const readTime = estimateReadTime(article.content || article.content_html || article.description || '');
 
     const card = document.createElement('a');
     card.href = article.link;
@@ -925,9 +951,10 @@ function renderInsightCards(grid, articles) {
         </div>
         <h3 class="insight-card-title">${escapeHtml(article.title)}</h3>
         <p class="insight-card-excerpt">${escapeHtml(excerpt)}</p>
+        ${categories && categories.length > 0 ? `
         <div class="insight-card-tags">
           ${categories.slice(0, 4).map(tag => `<span class="insight-tag">${escapeHtml(tag)}</span>`).join('')}
-        </div>
+        </div>` : ''}
       </div>
       <div class="insight-card-footer">
         <span class="insight-read-more">
@@ -946,8 +973,11 @@ function extractThumbnail(article) {
   if (article.thumbnail && article.thumbnail.length > 0) {
     return article.thumbnail;
   }
-  const content = article.content || article.description || '';
-  const imgMatch = content.match(/<img[^>]+src=["']([^"']+)["']/);
+  if (article.image && article.image.length > 0) {
+    return article.image;
+  }
+  const content = article.content || article.content_html || article.description || '';
+  const imgMatch = content.match(/<img[^>]+src=["']([^"']+)["']/i);
   return imgMatch ? imgMatch[1] : '';
 }
 
