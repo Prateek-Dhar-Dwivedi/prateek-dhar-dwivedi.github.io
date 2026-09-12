@@ -814,70 +814,91 @@ function initTestimonialSlider() {
 /* --------------------------------------------------------------------------
    10. MEDIUM INSIGHTS - LIVE RSS FEED INTEGRATION
    -------------------------------------------------------------------------- */
+const MEDIUM_BASELINE_ARTICLES = [
+  {
+    title: 'VELORA: Building an AI-Powered Job Discovery & Trust Platform',
+    link: 'https://prateekdhardwivedi.medium.com/velora-building-an-ai-powered-job-discovery-trust-platform-d79fa69c29cd',
+    pubDate: '2026-09-12 15:26:25',
+    thumbnail: 'https://cdn-images-1.medium.com/max/1024/1*TKikYF7krAa8rSVoP6LjLg.png',
+    categories: ['Machine Learning', 'Full Stack', 'AI', 'Job Discovery'],
+    description: 'How I built a full-stack platform to discover jobs, analyze resume matches, detect potential scams, and manage applications.'
+  },
+  {
+    title: 'Building Cineora: My Journey into Movie Recommendation',
+    link: 'https://prateekdhardwivedi.medium.com/building-cineora-my-journey-into-movie-recommendation-cf27d9e9f2dd',
+    pubDate: '2026-08-30 02:11:47',
+    thumbnail: 'https://cdn-images-1.medium.com/max/1024/1*hNHCpUFCvIj8G9KPjiCGPg.png',
+    categories: ['Recommendation System', 'Full Stack', 'Machine Learning', 'Flask'],
+    description: 'How I built a movie recommendation platform by combining React, Node.js, Flask, and Machine Learning.'
+  },
+  {
+    title: 'Building My First Personal Portfolio with HTML, CSS & JavaScript',
+    link: 'https://prateekdhardwivedi.medium.com/building-my-first-personal-portfolio-with-html-css-javascript-258f9d5b5598',
+    pubDate: '2026-08-24 13:06:25',
+    thumbnail: 'https://cdn-images-1.medium.com/max/1024/1*0jI3Hn-7LBG40qg6g4DLzA.png',
+    categories: ['Web Development', 'CSS3', 'HTML5', 'JavaScript'],
+    description: 'How I turned a simple idea into a personal space to showcase my projects, skills, and journey as a developer.'
+  },
+  {
+    title: 'From Anvil to MERN: Rebuilding My University Website the Right Way',
+    link: 'https://prateekdhardwivedi.medium.com/from-anvil-to-mern-rebuilding-my-university-website-the-right-way-9757eb5c5656',
+    pubDate: '2026-08-10 02:23:14',
+    thumbnail: 'https://cdn-images-1.medium.com/max/1024/1*G3KHk7hPI46QLnHsKuh6Wg.png',
+    categories: ['MERN Stack', 'Web Development', 'University Portal', 'Full Stack'],
+    description: 'Why I rebuilt my first college project into a full-stack university management platform using the MERN stack.'
+  },
+  {
+    title: 'How My First College Project Built with Anvil Became the Foundation of My S.E Journey',
+    link: 'https://prateekdhardwivedi.medium.com/how-my-first-college-project-built-with-anvil-became-the-foundation-of-my-s-e-journey-9fdca106c746',
+    pubDate: '2026-07-29 15:27:08',
+    thumbnail: 'https://cdn-images-1.medium.com/max/1024/1*U_b89AKAi7ZuN4CiPbFL2Q.png',
+    categories: ['Software Engineering', 'Python', 'Anvil', 'Learning Journey'],
+    description: 'Building My First University Website with Anvil: The Project That Started My Software Engineering Journey.'
+  }
+];
+
 function initMediumInsights() {
   const grid = document.getElementById('insightsGrid');
   if (!grid) return;
+
+  // 1. Instant baseline render (instant load for all 5 articles including VELORA with zero network wait)
+  renderInsightCards(grid, MEDIUM_BASELINE_ARTICLES);
 
   const MEDIUM_USERNAME = 'prateekdhardwivedi';
   const rssUrl = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
   const timestamp = Date.now();
 
-  const FEED2JSON_API = `https://feed2json.org/convert?url=${encodeURIComponent(rssUrl)}`;
-  const RSS2JSON_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&_t=${timestamp}`;
-
-  // Primary: Real-time RSS-to-JSON via feed2json (instant updates when new articles are published)
-  fetch(FEED2JSON_API)
-    .then(res => {
-      if (!res.ok) throw new Error('feed2json response not ok');
-      return res.json();
-    })
-    .then(data => {
-      if (Array.isArray(data.items) && data.items.length > 0) {
-        const normalized = data.items.map(item => ({
-          title: item.title || '',
-          link: item.url || item.link || '',
-          pubDate: item.date_published || item.pubDate || '',
-          content: item.content_html || item.content || item.summary || item.description || '',
-          description: item.summary || item.description || '',
-          thumbnail: item.image || item.thumbnail || '',
-          categories: item.tags || item.categories || []
-        }));
-        renderInsightCards(grid, normalized);
-        return;
+  // 2. Background live sync to fetch any newer articles dynamically
+  fetchLiveMediumArticles(rssUrl, timestamp)
+    .then(articles => {
+      if (articles && articles.length > 0) {
+        renderInsightCards(grid, articles);
       }
-      throw new Error('Empty feed2json items');
     })
     .catch(() => {
-      // Secondary Fallback: rss2json
-      fetch(RSS2JSON_API)
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
-            renderInsightCards(grid, data.items);
-            return;
-          }
-          throw new Error('Empty or invalid rss2json payload');
-        })
-        .catch(() => {
-          // Tertiary Fallback: Direct XML parsing via CORS proxy
-          fetchViaCorsProxy(rssUrl, timestamp)
-            .then(items => {
-              if (items && items.length > 0) {
-                renderInsightCards(grid, items);
-              } else {
-                renderInsightsEmpty(grid);
-              }
-            })
-            .catch(() => {
-              renderInsightsError(grid);
-            });
-        });
+      // Baseline cards are already rendered safely
     });
 }
 
-async function fetchViaCorsProxy(rssUrl, timestamp) {
+async function fetchLiveMediumArticles(rssUrl, timestamp) {
+  // Strategy 1: CORS proxy JSON wrapper
+  try {
+    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}&_=${timestamp}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.contents) {
+        const parsed = parseMediumXmlText(data.contents);
+        if (parsed && parsed.length > 0) return parsed;
+      }
+    }
+  } catch (e) {
+    // continue
+  }
+
+  // Strategy 2: Direct raw proxies
   const proxyUrls = [
     `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl + '?t=' + timestamp)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl + '?t=' + timestamp)}`,
     `https://corsproxy.io/?url=${encodeURIComponent(rssUrl + '?t=' + timestamp)}`
   ];
 
@@ -886,34 +907,59 @@ async function fetchViaCorsProxy(rssUrl, timestamp) {
       const res = await fetch(proxyUrl);
       if (!res.ok) continue;
       const xmlText = await res.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-      const items = Array.from(xmlDoc.querySelectorAll('item'));
-      if (items.length > 0) {
-        return items.map(item => {
-          const title = item.querySelector('title')?.textContent || '';
-          const link = item.querySelector('link')?.textContent || '';
-          const pubDate = item.querySelector('pubDate')?.textContent || '';
-          const encoded = item.getElementsByTagNameNS('http://purl.org/rss/1.0/modules/content/', 'encoded')[0]?.textContent || '';
-          const description = item.querySelector('description')?.textContent || '';
-          const content = encoded || description;
-          const categories = Array.from(item.querySelectorAll('category')).map(c => c.textContent);
-
-          return {
-            title,
-            link,
-            pubDate,
-            content,
-            description,
-            categories
-          };
-        });
-      }
+      const parsed = parseMediumXmlText(xmlText);
+      if (parsed && parsed.length > 0) return parsed;
     } catch (e) {
-      // try next proxy
+      // try next
     }
   }
+
+  // Strategy 3: rss2json API
+  try {
+    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&_t=${timestamp}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.status === 'ok' && Array.isArray(data.items) && data.items.length > 0) {
+        return data.items.map(item => ({
+          title: item.title || '',
+          link: item.link || item.url || '',
+          pubDate: item.pubDate || '',
+          content: item.content || item.description || '',
+          description: item.description || '',
+          thumbnail: item.thumbnail || '',
+          categories: item.categories || []
+        }));
+      }
+    }
+  } catch (e) {
+    // continue
+  }
+
   return null;
+}
+
+function parseMediumXmlText(xmlText) {
+  const itemBlocks = xmlText.match(/<item[\s\S]*?<\/item>/gi) || [];
+  if (itemBlocks.length > 0) {
+    return itemBlocks.map(block => {
+      const titleMatch = block.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/i) || block.match(/<title>([\s\S]*?)<\/title>/i);
+      const linkMatch = block.match(/<link>([\s\S]*?)<\/link>/i);
+      const pubDateMatch = block.match(/<pubDate>([\s\S]*?)<\/pubDate>/i);
+      const contentMatch = block.match(/<content:encoded><!\[CDATA\[([\s\S]*?)\]\]><\/content:encoded>/i) || block.match(/<description><!\[CDATA\[([\s\S]*?)\]\]><\/description>/i) || block.match(/<description>([\s\S]*?)<\/description>/i);
+      const catMatches = [...block.matchAll(/<category><!\[CDATA\[([\s\S]*?)\]\]><\/category>/gi)].map(m => m[1]);
+
+      return {
+        title: titleMatch ? titleMatch[1].trim() : '',
+        link: linkMatch ? linkMatch[1].trim() : '',
+        pubDate: pubDateMatch ? pubDateMatch[1].trim() : '',
+        content: contentMatch ? contentMatch[1] : '',
+        description: '',
+        thumbnail: '',
+        categories: catMatches
+      };
+    });
+  }
+  return [];
 }
 
 function renderInsightCards(grid, articles) {
@@ -986,7 +1032,7 @@ function extractExcerpt(htmlContent) {
   tmp.innerHTML = htmlContent;
   const text = tmp.textContent || tmp.innerText || '';
   const cleaned = text.replace(/\s+/g, ' ').trim();
-  return cleaned.length > 200 ? cleaned.substring(0, 200) + '…' : cleaned;
+  return cleaned.length > 200 ? cleaned.substring(0, 200) + '...' : cleaned;
 }
 
 function formatInsightDate(dateStr) {
